@@ -18,7 +18,7 @@ if api_key:
     genai.configure(api_key=api_key)
 
 # Rate limiting: 3 requests per minute (safety buffer from 5/min limit)
-REQUESTS_PER_MINUTE = 3
+REQUESTS_PER_MINUTE = 2
 REQUEST_INTERVAL = 60 / REQUESTS_PER_MINUTE  # 20 seconds between requests
 
 # Track last request time

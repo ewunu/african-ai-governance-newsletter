@@ -163,7 +163,7 @@ def classify_article(title: str, snippet: str) -> Optional[Dict]:
     
     try:
         # Initialize model
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-1.5-flash-latest')
         
         # Format prompt
         prompt = CLASSIFICATION_PROMPT.format(

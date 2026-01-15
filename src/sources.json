@@ -1,0 +1,348 @@
+{
+  "rss_feeds": [
+    {
+      "name": "TechCabal",
+      "url": "https://techcabal.com/feed/",
+      "region": "Pan-African",
+      "focus": "African tech news"
+    },
+    {
+      "name": "IT News Africa",
+      "url": "https://www.itnewsafrica.com/feed/",
+      "region": "Pan-African",
+      "focus": "Business technology"
+    },
+    {
+      "name": "Disrupt Africa",
+      "url": "https://disrupt-africa.com/feed/",
+      "region": "Pan-African",
+      "focus": "Startup ecosystem"
+    },
+    {
+      "name": "Techpoint Africa",
+      "url": "https://techpoint.africa/feed/",
+      "region": "Pan-African",
+      "focus": "African tech stories"
+    },
+    {
+      "name": "Technext24",
+      "url": "https://technext24.com/feed/",
+      "region": "Nigeria/Pan-African",
+      "focus": "Tech news"
+    },
+    {
+      "name": "Tech in Africa",
+      "url": "https://www.techinafrica.com/feed/",
+      "region": "Pan-African",
+      "focus": "Startups and tech"
+    },
+    {
+      "name": "Quartz Africa",
+      "url": "https://qz.com/africa/feed/",
+      "region": "Pan-African",
+      "focus": "Business and economics"
+    },
+    {
+      "name": "TechCrunch Africa",
+      "url": "https://techcrunch.com/tag/africa/feed/",
+      "region": "Global/Africa coverage",
+      "focus": "Startup funding and news"
+    },
+    {
+      "name": "VentureBeat AI",
+      "url": "https://venturebeat.com/category/ai/feed/",
+      "region": "Global",
+      "focus": "AI industry news"
+    },
+    {
+      "name": "MIT Technology Review AI",
+      "url": "https://www.technologyreview.com/topic/artificial-intelligence/feed/",
+      "region": "Global",
+      "focus": "AI technology and ethics"
+    },
+    {
+      "name": "Wired AI",
+      "url": "https://www.wired.com/feed/tag/ai/latest/rss",
+      "region": "Global",
+      "focus": "AI and technology"
+    },
+    {
+      "name": "The Verge AI",
+      "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
+      "region": "Global",
+      "focus": "AI news"
+    },
+    {
+      "name": "Brookings AI",
+      "url": "https://www.brookings.edu/topic/artificial-intelligence/feed/",
+      "region": "Global/Policy",
+      "focus": "AI policy research"
+    },
+    {
+      "name": "Center for AI Safety",
+      "url": "https://www.safe.ai/blog/rss.xml",
+      "region": "Global",
+      "focus": "AI safety and governance"
+    },
+    {
+      "name": "AI Now Institute",
+      "url": "https://ainowinstitute.org/feed",
+      "region": "Global",
+      "focus": "AI social implications"
+    },
+    {
+      "name": "World Economic Forum AI",
+      "url": "https://www.weforum.org/topics/artificial-intelligence/feed",
+      "region": "Global",
+      "focus": "AI governance and policy"
+    },
+    {
+      "name": "Reuters Technology",
+      "url": "https://www.reuters.com/technology/rss",
+      "region": "Global",
+      "focus": "Tech and AI news"
+    },
+    {
+      "name": "The Africa Report",
+      "url": "https://www.theafricareport.com/feed/",
+      "region": "Pan-African",
+      "focus": "Business and politics"
+    },
+    {
+      "name": "African Business",
+      "url": "https://african.business/feed/",
+      "region": "Pan-African",
+      "focus": "Business news"
+    },
+    {
+      "name": "Business Day Nigeria",
+      "url": "https://businessday.ng/feed/",
+      "region": "Nigeria",
+      "focus": "Business and technology"
+    },
+    {
+      "name": "Daily Maverick",
+      "url": "https://www.dailymaverick.co.za/feed/",
+      "region": "South Africa",
+      "focus": "News and analysis"
+    },
+    {
+      "name": "News24 Tech",
+      "url": "https://feeds.news24.com/articles/news24/Tech/rss",
+      "region": "South Africa",
+      "focus": "Technology news"
+    },
+    {
+      "name": "MyBroadband",
+      "url": "https://mybroadband.co.za/news/feed",
+      "region": "South Africa",
+      "focus": "Tech and telecom"
+    },
+    {
+      "name": "ITWeb Africa",
+      "url": "https://www.itweb.co.za/rss",
+      "region": "South Africa",
+      "focus": "IT news"
+    },
+    {
+      "name": "CIO East Africa",
+      "url": "https://www.cio.co.ke/feed/",
+      "region": "East Africa",
+      "focus": "Enterprise IT"
+    },
+    {
+      "name": "Digest Africa",
+      "url": "https://digestafrica.com/feed",
+      "region": "Pan-African",
+      "focus": "Tech startups"
+    },
+    {
+      "name": "Weetracker",
+      "url": "https://weetracker.com/feed/",
+      "region": "Pan-African",
+      "focus": "Startup funding"
+    },
+    {
+      "name": "Ventures Africa",
+      "url": "https://venturesafrica.com/feed/",
+      "region": "Pan-African",
+      "focus": "Business and tech"
+    },
+    {
+      "name": "OECD AI Policy Observatory",
+      "url": "https://oecd.ai/en/feed",
+      "region": "Global/Policy",
+      "focus": "AI policy and governance"
+    },
+    {
+      "name": "Algorithm Watch",
+      "url": "https://algorithmwatch.org/en/feed/",
+      "region": "Global",
+      "focus": "Algorithmic accountability"
+    }
+  ],
+  
+  "keywords_filter": {
+    "primary_keywords": [
+      "AI governance",
+      "AI regulation",
+      "AI ethics",
+      "AI policy",
+      "artificial intelligence governance",
+      "artificial intelligence regulation",
+      "responsible AI",
+      "AI audit",
+      "AI assurance",
+      "algorithmic accountability",
+      "algorithmic bias",
+      "AI fairness",
+      "AI transparency",
+      "explainable AI",
+      "AI risk",
+      "AI safety",
+      "AI standards",
+      "ISO 42001",
+      "AI framework",
+      "AI strategy",
+      "AI law",
+      "AI legislation",
+      "data protection",
+      "privacy AI",
+      "AI human rights",
+      "ethical AI",
+      "trustworthy AI"
+    ],
+    
+    "africa_keywords": [
+      "africa",
+      "african",
+      "nigeria",
+      "south africa",
+      "kenya",
+      "egypt",
+      "ghana",
+      "rwanda",
+      "ethiopia",
+      "morocco",
+      "tanzania",
+      "uganda",
+      "senegal",
+      "côte d'ivoire",
+      "ivory coast",
+      "cameroon",
+      "zimbabwe",
+      "zambia",
+      "botswana",
+      "namibia",
+      "mozambique",
+      "angola",
+      "tunisia",
+      "algeria",
+      "sudan",
+      "african union",
+      "AU",
+      "ECOWAS",
+      "SADC",
+      "EAC",
+      "smart africa",
+      "afdb",
+      "african development bank"
+    ],
+    
+    "governance_bodies": [
+      "UNESCO",
+      "ITU",
+      "OECD",
+      "World Bank",
+      "IMF",
+      "United Nations",
+      "G20",
+      "African Union Commission",
+      "NEPAD",
+      "Mo Ibrahim Foundation",
+      "Tony Elumelu Foundation",
+      "Data Protection Authority",
+      "Communications Commission",
+      "ICT Ministry"
+    ],
+    
+    "sector_keywords": [
+      "fintech AI",
+      "healthtech AI",
+      "agritech AI",
+      "edtech AI",
+      "banking AI",
+      "insurance AI",
+      "telecom AI",
+      "government AI",
+      "public sector AI"
+    ]
+  },
+  
+  "relevance_scoring": {
+    "high_relevance_combinations": [
+      {
+        "pattern": "primary_keyword + africa_keyword",
+        "base_score": 9
+      },
+      {
+        "pattern": "primary_keyword + governance_body",
+        "base_score": 8
+      },
+      {
+        "pattern": "africa_keyword + sector_keyword",
+        "base_score": 7
+      }
+    ],
+    "minimum_score_to_save": 5,
+    "minimum_score_for_review": 7
+  },
+  
+  "classification_categories": {
+    "AI Governance": [
+      "National AI Strategies",
+      "Regulatory Frameworks",
+      "Policy Proposals",
+      "International Agreements",
+      "Government Initiatives",
+      "Cross-border Cooperation"
+    ],
+    "AI Ethics": [
+      "Bias & Fairness",
+      "Privacy & Data Protection",
+      "Algorithmic Accountability",
+      "Human Rights Implications",
+      "Consent & Transparency",
+      "Environmental Impact"
+    ],
+    "AI Audit & Assurance": [
+      "Standards & Certifications",
+      "Risk Assessment Frameworks",
+      "Compliance Requirements",
+      "Third-party Audits",
+      "Impact Assessments",
+      "Monitoring & Evaluation"
+    ],
+    "Responsible AI Use": [
+      "Sector Applications",
+      "Best Practices",
+      "Case Studies",
+      "Failures & Lessons",
+      "Implementation Guides",
+      "Success Stories"
+    ]
+  },
+  
+  "geographic_tags": [
+    "Pan-African",
+    "North Africa",
+    "West Africa",
+    "East Africa",
+    "Southern Africa",
+    "Central Africa",
+    "ECOWAS Region",
+    "SADC Region",
+    "EAC Region",
+    "Global with Africa Implications"
+  ]
+}

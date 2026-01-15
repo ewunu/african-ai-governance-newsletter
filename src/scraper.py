@@ -3,6 +3,8 @@
 African AI Governance Newsletter - Main Scraper
 Scrapes RSS feeds for AI governance news with Africa relevance.
 Extracts: Title, URL, Publication, Date (metadata only - no full text)
+
+Optimized for free tier: aggressive pre-filtering to reduce API calls.
 """
 
 import feedparser
@@ -10,17 +12,24 @@ import json
 import os
 import sys
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Set
+from typing import Dict, List, Optional, Set, Tuple
 import time
 import re
 
 # Import local modules
-from classifier import classify_article
+from classifier import classify_article, classify_article_fallback
 from sheets_handler import add_to_sheet, get_existing_urls
 
 # Constants
-MAX_ENTRIES_PER_FEED = 20
-REQUEST_DELAY = 0.5  # seconds between requests to be polite
+MAX_ENTRIES_PER_FEED = 10  # Reduced from 20
+REQUEST_DELAY = 0.5
+MAX_ARTICLES_TO_CLASSIFY = 50  # Hard limit for free tier
+
+# Sources that are highly relevant (prioritize these)
+PRIORITY_SOURCES = [
+    'techcabal', 'disrupt', 'itnewsafrica', 'techpoint',
+    'unesco', 'oecd', 'brookings', 'algorithm watch'
+]
 
 
 def load_sources() -> Dict:
@@ -36,23 +45,16 @@ def clean_html(text: str) -> str:
     """Remove HTML tags from text"""
     if not text:
         return ""
-    # Remove HTML tags
     clean = re.sub(r'<[^>]+>', '', text)
-    # Decode HTML entities
-    clean = clean.replace('&amp;', '&')
-    clean = clean.replace('&lt;', '<')
-    clean = clean.replace('&gt;', '>')
-    clean = clean.replace('&quot;', '"')
-    clean = clean.replace('&#39;', "'")
-    clean = clean.replace('&nbsp;', ' ')
-    # Normalize whitespace
+    clean = clean.replace('&amp;', '&').replace('&lt;', '<')
+    clean = clean.replace('&gt;', '>').replace('&quot;', '"')
+    clean = clean.replace('&#39;', "'").replace('&nbsp;', ' ')
     clean = ' '.join(clean.split())
-    return clean[:300]  # Limit snippet length
+    return clean[:300]
 
 
 def extract_date(entry: Dict) -> str:
     """Extract and format publication date from feed entry"""
-    # Try different date fields
     date_fields = ['published_parsed', 'updated_parsed', 'created_parsed']
     
     for field in date_fields:
@@ -62,33 +64,105 @@ def extract_date(entry: Dict) -> str:
             except (TypeError, ValueError):
                 continue
     
-    # Fallback to today's date
     return datetime.now().strftime('%Y-%m-%d')
 
 
-def is_potentially_relevant(title: str, snippet: str, sources: Dict) -> bool:
+def is_recent(date_str: str, days: int = 7) -> bool:
+    """Check if article is from the last N days"""
+    try:
+        article_date = datetime.strptime(date_str, '%Y-%m-%d')
+        cutoff = datetime.now() - timedelta(days=days)
+        return article_date >= cutoff
+    except:
+        return True  # If we can't parse, assume it's recent
+
+
+def calculate_keyword_score(title: str, snippet: str, sources: Dict) -> Tuple[int, bool, bool]:
     """
-    Quick keyword check to filter obviously irrelevant articles
-    before sending to AI for classification.
+    Calculate keyword relevance score.
+    Returns: (score, is_ai_related, is_africa_related)
+    
+    Score:
+    - 0: No relevant keywords
+    - 1-2: Weak match (1 keyword)
+    - 3-4: Moderate match (AI or Africa keywords)
+    - 5+: Strong match (AI + Africa keywords)
     """
     keywords = sources.get('keywords_filter', {})
+    text = (title + ' ' + snippet).lower()
     
-    # Combine all keyword lists
-    all_keywords = (
-        keywords.get('primary_keywords', []) +
-        keywords.get('africa_keywords', []) +
-        keywords.get('governance_bodies', []) +
-        keywords.get('sector_keywords', [])
-    )
+    # AI/Governance keywords
+    ai_keywords = [
+        'ai governance', 'ai regulation', 'ai policy', 'ai ethics',
+        'artificial intelligence', 'responsible ai', 'ai audit',
+        'algorithmic', 'machine learning regulation', 'ai framework',
+        'ai strategy', 'ai law', 'data protection', 'ai bias',
+        'ai fairness', 'ai safety', 'ai risk', 'ai standard'
+    ]
     
-    # Convert to lowercase for matching
-    all_keywords_lower = [kw.lower() for kw in all_keywords]
-    text_to_check = (title + ' ' + snippet).lower()
+    # Africa keywords
+    africa_keywords = [
+        'africa', 'african', 'nigeria', 'nigerian', 'kenya', 'kenyan',
+        'south africa', 'egypt', 'egyptian', 'ghana', 'ghanaian',
+        'rwanda', 'ethiopia', 'morocco', 'tanzania', 'uganda',
+        'senegal', 'cameroon', 'african union', 'ecowas', 'sadc'
+    ]
     
-    # Check if any keyword is present
-    for keyword in all_keywords_lower:
-        if keyword in text_to_check:
+    # Count matches
+    ai_matches = sum(1 for kw in ai_keywords if kw in text)
+    africa_matches = sum(1 for kw in africa_keywords if kw in text)
+    
+    is_ai_related = ai_matches > 0
+    is_africa_related = africa_matches > 0
+    
+    # Calculate score
+    if ai_matches >= 2 and africa_matches >= 1:
+        score = 6  # Strong: Multiple AI keywords + Africa
+    elif ai_matches >= 1 and africa_matches >= 1:
+        score = 5  # Good: AI + Africa
+    elif ai_matches >= 2:
+        score = 4  # Moderate: Strong AI focus
+    elif africa_matches >= 1 and ('tech' in text or 'digital' in text):
+        score = 3  # Moderate: Africa + tech context
+    elif ai_matches >= 1:
+        score = 2  # Weak: Single AI keyword
+    else:
+        score = 0  # No match
+    
+    return score, is_ai_related, is_africa_related
+
+
+def should_skip_article(title: str) -> bool:
+    """
+    Quick check to skip obviously irrelevant articles.
+    Returns True if article should be skipped.
+    """
+    title_lower = title.lower()
+    
+    # Skip patterns (newsletters, promotions, etc.)
+    skip_patterns = [
+        'daily digest', 'weekly roundup', 'newsletter',
+        'sponsored', 'advertisement', 'partner content',
+        'podcast:', 'video:', '[video]', '[podcast]',
+        'job:', 'hiring:', 'careers',
+        'price:', 'discount', 'sale', 'promo',
+        'horoscope', 'weather', 'sports score',
+        'recipe', 'lifestyle', 'fashion week',
+        'celebrity', 'entertainment news'
+    ]
+    
+    for pattern in skip_patterns:
+        if pattern in title_lower:
             return True
+    
+    # Skip if title is too short (likely not a real article)
+    if len(title) < 20:
+        return True
+    
+    # Skip emoji-heavy titles (often newsletters)
+    emoji_count = len(re.findall(r'[\U0001F300-\U0001F9FF]', title))
+    if emoji_count >= 3:
+        return True
     
     return False
 
@@ -99,17 +173,18 @@ def parse_single_feed(feed_config: Dict, sources: Dict, existing_urls: Set[str])
     feed_url = feed_config.get('url', '')
     feed_name = feed_config.get('name', 'Unknown')
     
-    print(f"  Parsing: {feed_name}...")
+    # Check if this is a priority source
+    is_priority = any(p in feed_name.lower() for p in PRIORITY_SOURCES)
+    
+    print(f"  {'⭐' if is_priority else '○'} Parsing: {feed_name}...")
     
     try:
-        # Parse the feed
         parsed = feedparser.parse(feed_url)
         
         if parsed.bozo and not parsed.entries:
-            print(f"    ⚠ Feed error for {feed_name}: {parsed.bozo_exception}")
+            print(f"    ⚠ Feed error: {str(parsed.bozo_exception)[:50]}")
             return articles
         
-        # Process entries
         for entry in parsed.entries[:MAX_ENTRIES_PER_FEED]:
             try:
                 title = clean_html(entry.get('title', ''))
@@ -123,37 +198,51 @@ def parse_single_feed(feed_config: Dict, sources: Dict, existing_urls: Set[str])
                 if url in existing_urls:
                     continue
                 
-                # Get snippet from summary/description
-                snippet = clean_html(
-                    entry.get('summary', '') or 
-                    entry.get('description', '') or 
-                    entry.get('content', [{}])[0].get('value', '')
-                )
-                
-                # Quick relevance check before AI classification
-                if not is_potentially_relevant(title, snippet, sources):
+                # Skip obviously irrelevant articles
+                if should_skip_article(title):
                     continue
                 
-                # Extract publication date
+                # Get snippet
+                snippet = clean_html(
+                    entry.get('summary', '') or 
+                    entry.get('description', '') or ''
+                )
+                
+                # Extract date and check recency
                 pub_date = extract_date(entry)
+                if not is_recent(pub_date, days=7):
+                    continue
                 
-                articles.append({
-                    'title': title,
-                    'url': url,
-                    'publication': feed_name,
-                    'date_published': pub_date,
-                    'snippet': snippet[:200],  # Limit snippet for classification
-                    'region': feed_config.get('region', 'Unknown')
-                })
+                # Calculate keyword score
+                score, is_ai, is_africa = calculate_keyword_score(title, snippet, sources)
                 
+                # Filter based on score
+                # Priority sources: accept score >= 2
+                # Other sources: accept score >= 4 (need both AI + Africa signals)
+                min_score = 2 if is_priority else 4
+                
+                if score >= min_score:
+                    articles.append({
+                        'title': title,
+                        'url': url,
+                        'publication': feed_name,
+                        'date_published': pub_date,
+                        'snippet': snippet[:200],
+                        'region': feed_config.get('region', 'Unknown'),
+                        'keyword_score': score,
+                        'is_ai_related': is_ai,
+                        'is_africa_related': is_africa,
+                        'is_priority_source': is_priority
+                    })
+                    
             except Exception as e:
-                print(f"    ⚠ Error processing entry: {e}")
                 continue
         
-        print(f"    ✓ Found {len(articles)} potentially relevant articles")
+        if articles:
+            print(f"    ✓ Found {len(articles)} candidates")
         
     except Exception as e:
-        print(f"    ✗ Failed to parse {feed_name}: {e}")
+        print(f"    ✗ Failed: {str(e)[:50]}")
     
     return articles
 
@@ -170,11 +259,9 @@ def parse_all_feeds(sources: Dict, existing_urls: Set[str]) -> List[Dict]:
     for feed in feeds:
         articles = parse_single_feed(feed, sources, existing_urls)
         all_articles.extend(articles)
-        
-        # Be polite - don't hammer servers
         time.sleep(REQUEST_DELAY)
     
-    # Deduplicate by URL (in case same article appears in multiple feeds)
+    # Deduplicate by URL
     seen_urls = set()
     unique_articles = []
     for article in all_articles:
@@ -182,8 +269,19 @@ def parse_all_feeds(sources: Dict, existing_urls: Set[str]) -> List[Dict]:
             seen_urls.add(article['url'])
             unique_articles.append(article)
     
+    # Sort by keyword score (highest first), then by priority source
+    unique_articles.sort(
+        key=lambda x: (x.get('keyword_score', 0), x.get('is_priority_source', False)),
+        reverse=True
+    )
+    
+    # Limit to MAX_ARTICLES_TO_CLASSIFY
+    if len(unique_articles) > MAX_ARTICLES_TO_CLASSIFY:
+        print(f"\n⚠ Found {len(unique_articles)} articles, limiting to top {MAX_ARTICLES_TO_CLASSIFY}")
+        unique_articles = unique_articles[:MAX_ARTICLES_TO_CLASSIFY]
+    
     print(f"\n{'='*60}")
-    print(f"TOTAL: {len(unique_articles)} unique potentially relevant articles")
+    print(f"TOTAL: {len(unique_articles)} articles to classify")
     print(f"{'='*60}\n")
     
     return unique_articles
@@ -196,35 +294,47 @@ def process_and_save_articles(articles: List[Dict], min_score: int = 5) -> Dict:
         'classified': 0,
         'saved': 0,
         'errors': 0,
-        'below_threshold': 0
+        'below_threshold': 0,
+        'skipped_fallback': 0
     }
     
     print(f"\n{'='*60}")
     print(f"CLASSIFYING {len(articles)} ARTICLES")
+    print(f"(This will take ~{len(articles) * 13 // 60} minutes due to rate limits)")
     print(f"{'='*60}\n")
     
     for i, article in enumerate(articles, 1):
         stats['processed'] += 1
         
         try:
-            print(f"[{i}/{len(articles)}] Classifying: {article['title'][:50]}...")
+            title_preview = article['title'][:50]
+            kw_score = article.get('keyword_score', 0)
             
-            # Get AI classification
-            classification = classify_article(
-                article['title'], 
-                article.get('snippet', '')
-            )
+            print(f"[{i}/{len(articles)}] [KW:{kw_score}] {title_preview}...")
+            
+            # For very high keyword scores from priority sources, use fallback
+            # to save API calls
+            if kw_score >= 5 and article.get('is_priority_source'):
+                classification = classify_article_fallback(
+                    article['title'], 
+                    article.get('snippet', '')
+                )
+                classification['relevance_score'] = max(classification['relevance_score'], kw_score + 2)
+                stats['skipped_fallback'] += 1
+                print(f"    ⚡ Fast-tracked (Score: {classification['relevance_score']}/10)")
+            else:
+                # Use AI classification
+                classification = classify_article(
+                    article['title'], 
+                    article.get('snippet', '')
+                )
             
             if classification:
                 stats['classified'] += 1
                 relevance_score = classification.get('relevance_score', 0)
                 
-                # Only save if meets minimum score threshold
                 if relevance_score >= min_score:
-                    # Merge classification into article
                     article.update(classification)
-                    
-                    # Save to Google Sheet
                     success = add_to_sheet(article)
                     
                     if success:
@@ -232,7 +342,7 @@ def process_and_save_articles(articles: List[Dict], min_score: int = 5) -> Dict:
                         print(f"    ✓ Saved (Score: {relevance_score}/10)")
                     else:
                         stats['errors'] += 1
-                        print(f"    ✗ Failed to save to sheet")
+                        print(f"    ✗ Failed to save")
                 else:
                     stats['below_threshold'] += 1
                     print(f"    ○ Below threshold (Score: {relevance_score}/10)")
@@ -240,58 +350,59 @@ def process_and_save_articles(articles: List[Dict], min_score: int = 5) -> Dict:
                 stats['errors'] += 1
                 print(f"    ✗ Classification failed")
             
-            # Rate limiting for Gemini API
-            time.sleep(0.5)
-            
         except Exception as e:
             stats['errors'] += 1
-            print(f"    ✗ Error: {e}")
+            print(f"    ✗ Error: {str(e)[:50]}")
     
     return stats
 
 
 def main():
     """Main execution function"""
+    start_time = time.time()
+    
     print("\n" + "="*60)
     print("AFRICAN AI GOVERNANCE NEWSLETTER - SCRAPER")
     print(f"Run Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}")
     print("="*60)
     
-    # Load sources configuration
-    print("\n📚 Loading sources configuration...")
+    # Load sources
+    print("\n📚 Loading sources...")
     sources = load_sources()
     print(f"   Loaded {len(sources.get('rss_feeds', []))} RSS feeds")
     
-    # Get existing URLs to avoid duplicates
-    print("\n📋 Fetching existing URLs from Google Sheet...")
+    # Get existing URLs
+    print("\n📋 Checking existing entries...")
     try:
         existing_urls = get_existing_urls()
         print(f"   Found {len(existing_urls)} existing entries")
     except Exception as e:
         print(f"   ⚠ Could not fetch existing URLs: {e}")
-        print("   Proceeding without deduplication...")
         existing_urls = set()
     
-    # Parse all RSS feeds
+    # Parse feeds
     articles = parse_all_feeds(sources, existing_urls)
     
     if not articles:
         print("\n✓ No new relevant articles found. Exiting.")
         return
     
-    # Classify and save articles
+    # Classify and save
     min_score = sources.get('relevance_scoring', {}).get('minimum_score_to_save', 5)
     stats = process_and_save_articles(articles, min_score)
     
-    # Print summary
+    # Summary
+    elapsed = time.time() - start_time
     print("\n" + "="*60)
     print("SUMMARY")
     print("="*60)
-    print(f"  Articles processed:    {stats['processed']}")
+    print(f"  Articles processed:     {stats['processed']}")
     print(f"  Successfully classified: {stats['classified']}")
-    print(f"  Saved to sheet:        {stats['saved']}")
-    print(f"  Below threshold:       {stats['below_threshold']}")
-    print(f"  Errors:                {stats['errors']}")
+    print(f"  Fast-tracked (no API):  {stats['skipped_fallback']}")
+    print(f"  Saved to sheet:         {stats['saved']}")
+    print(f"  Below threshold:        {stats['below_threshold']}")
+    print(f"  Errors:                 {stats['errors']}")
+    print(f"  Total time:             {elapsed/60:.1f} minutes")
     print("="*60 + "\n")
 
 

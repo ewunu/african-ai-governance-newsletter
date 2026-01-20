@@ -1,348 +1,213 @@
 {
   "rss_feeds": [
-    {
-      "name": "TechCabal",
-      "url": "https://techcabal.com/feed/",
-      "region": "Pan-African",
-      "focus": "African tech news"
-    },
-    {
-      "name": "IT News Africa",
-      "url": "https://www.itnewsafrica.com/feed/",
-      "region": "Pan-African",
-      "focus": "Business technology"
-    },
-    {
-      "name": "Disrupt Africa",
-      "url": "https://disrupt-africa.com/feed/",
-      "region": "Pan-African",
-      "focus": "Startup ecosystem"
-    },
-    {
-      "name": "Techpoint Africa",
-      "url": "https://techpoint.africa/feed/",
-      "region": "Pan-African",
-      "focus": "African tech stories"
-    },
-    {
-      "name": "Technext24",
-      "url": "https://technext24.com/feed/",
-      "region": "Nigeria/Pan-African",
-      "focus": "Tech news"
-    },
-    {
-      "name": "Tech in Africa",
-      "url": "https://www.techinafrica.com/feed/",
-      "region": "Pan-African",
-      "focus": "Startups and tech"
-    },
-    {
-      "name": "Quartz Africa",
-      "url": "https://qz.com/africa/feed/",
-      "region": "Pan-African",
-      "focus": "Business and economics"
-    },
-    {
-      "name": "TechCrunch Africa",
-      "url": "https://techcrunch.com/tag/africa/feed/",
-      "region": "Global/Africa coverage",
-      "focus": "Startup funding and news"
-    },
-    {
-      "name": "VentureBeat AI",
-      "url": "https://venturebeat.com/category/ai/feed/",
-      "region": "Global",
-      "focus": "AI industry news"
-    },
-    {
-      "name": "MIT Technology Review AI",
-      "url": "https://www.technologyreview.com/topic/artificial-intelligence/feed/",
-      "region": "Global",
-      "focus": "AI technology and ethics"
-    },
-    {
-      "name": "Wired AI",
-      "url": "https://www.wired.com/feed/tag/ai/latest/rss",
-      "region": "Global",
-      "focus": "AI and technology"
-    },
-    {
-      "name": "The Verge AI",
-      "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
-      "region": "Global",
-      "focus": "AI news"
-    },
-    {
-      "name": "Brookings AI",
-      "url": "https://www.brookings.edu/topic/artificial-intelligence/feed/",
-      "region": "Global/Policy",
-      "focus": "AI policy research"
-    },
-    {
-      "name": "Center for AI Safety",
-      "url": "https://www.safe.ai/blog/rss.xml",
-      "region": "Global",
-      "focus": "AI safety and governance"
-    },
-    {
-      "name": "AI Now Institute",
-      "url": "https://ainowinstitute.org/feed",
-      "region": "Global",
-      "focus": "AI social implications"
-    },
-    {
-      "name": "World Economic Forum AI",
-      "url": "https://www.weforum.org/topics/artificial-intelligence/feed",
-      "region": "Global",
-      "focus": "AI governance and policy"
-    },
-    {
-      "name": "Reuters Technology",
-      "url": "https://www.reuters.com/technology/rss",
-      "region": "Global",
-      "focus": "Tech and AI news"
-    },
-    {
-      "name": "The Africa Report",
-      "url": "https://www.theafricareport.com/feed/",
-      "region": "Pan-African",
-      "focus": "Business and politics"
-    },
-    {
-      "name": "African Business",
-      "url": "https://african.business/feed/",
-      "region": "Pan-African",
-      "focus": "Business news"
-    },
-    {
-      "name": "Business Day Nigeria",
-      "url": "https://businessday.ng/feed/",
-      "region": "Nigeria",
-      "focus": "Business and technology"
-    },
-    {
-      "name": "Daily Maverick",
-      "url": "https://www.dailymaverick.co.za/feed/",
-      "region": "South Africa",
-      "focus": "News and analysis"
-    },
-    {
-      "name": "News24 Tech",
-      "url": "https://feeds.news24.com/articles/news24/Tech/rss",
-      "region": "South Africa",
-      "focus": "Technology news"
-    },
-    {
-      "name": "MyBroadband",
-      "url": "https://mybroadband.co.za/news/feed",
-      "region": "South Africa",
-      "focus": "Tech and telecom"
-    },
-    {
-      "name": "ITWeb Africa",
-      "url": "https://www.itweb.co.za/rss",
-      "region": "South Africa",
-      "focus": "IT news"
-    },
-    {
-      "name": "CIO East Africa",
-      "url": "https://www.cio.co.ke/feed/",
-      "region": "East Africa",
-      "focus": "Enterprise IT"
-    },
-    {
-      "name": "Digest Africa",
-      "url": "https://digestafrica.com/feed",
-      "region": "Pan-African",
-      "focus": "Tech startups"
-    },
-    {
-      "name": "Weetracker",
-      "url": "https://weetracker.com/feed/",
-      "region": "Pan-African",
-      "focus": "Startup funding"
-    },
-    {
-      "name": "Ventures Africa",
-      "url": "https://venturesafrica.com/feed/",
-      "region": "Pan-African",
-      "focus": "Business and tech"
-    },
-    {
-      "name": "OECD AI Policy Observatory",
-      "url": "https://oecd.ai/en/feed",
-      "region": "Global/Policy",
-      "focus": "AI policy and governance"
-    },
-    {
-      "name": "Algorithm Watch",
-      "url": "https://algorithmwatch.org/en/feed/",
-      "region": "Global",
-      "focus": "Algorithmic accountability"
-    }
+    
+    {"name": "TechCabal", "url": "https://techcabal.com/feed/", "region": "Pan-African", "focus": "African tech news"},
+    {"name": "IT News Africa", "url": "https://www.itnewsafrica.com/feed/", "region": "Pan-African", "focus": "Business technology"},
+    {"name": "Disrupt Africa", "url": "https://disrupt-africa.com/feed/", "region": "Pan-African", "focus": "Startup ecosystem"},
+    {"name": "Techpoint Africa", "url": "https://techpoint.africa/feed/", "region": "Pan-African", "focus": "African tech stories"},
+    {"name": "Technext24", "url": "https://technext24.com/feed/", "region": "Pan-African", "focus": "Tech news"},
+    {"name": "Tech in Africa", "url": "https://www.techinafrica.com/feed/", "region": "Pan-African", "focus": "Startups and tech"},
+    {"name": "Quartz Africa", "url": "https://qz.com/africa/feed/", "region": "Pan-African", "focus": "Business and economics"},
+    {"name": "TechCrunch Africa", "url": "https://techcrunch.com/tag/africa/feed/", "region": "Pan-African", "focus": "Startup funding"},
+    {"name": "The Africa Report", "url": "https://www.theafricareport.com/feed/", "region": "Pan-African", "focus": "Business and politics"},
+    {"name": "African Business", "url": "https://african.business/feed/", "region": "Pan-African", "focus": "Business news"},
+    {"name": "Digest Africa", "url": "https://digestafrica.com/feed/", "region": "Pan-African", "focus": "Startup funding"},
+    {"name": "Weetracker", "url": "https://weetracker.com/feed/", "region": "Pan-African", "focus": "Funding news"},
+    {"name": "Ventures Africa", "url": "https://venturesafrica.com/feed/", "region": "Pan-African", "focus": "Business and tech"},
+    {"name": "African Arguments", "url": "https://africanarguments.org/feed/", "region": "Pan-African", "focus": "African analysis"},
+    {"name": "Rest of World", "url": "https://restofworld.org/feed/latest/", "region": "Global South", "focus": "Tech outside the West"},
+    {"name": "Africanews", "url": "https://www.africanews.com/feed/", "region": "Pan-African", "focus": "African news"},
+    {"name": "AllAfrica Tech", "url": "https://allafrica.com/tools/headlines/rdf/science/headlines.rdf", "region": "Pan-African", "focus": "Science and tech"},
+    {"name": "AllAfrica Business", "url": "https://allafrica.com/tools/headlines/rdf/business/headlines.rdf", "region": "Pan-African", "focus": "Business"},
+    
+    {"name": "Daily Maverick", "url": "https://www.dailymaverick.co.za/feed/", "region": "South Africa", "focus": "News and analysis"},
+    {"name": "News24 Tech", "url": "https://feeds.news24.com/articles/news24/Tech/rss", "region": "South Africa", "focus": "Technology news"},
+    {"name": "MyBroadband", "url": "https://mybroadband.co.za/news/feed/", "region": "South Africa", "focus": "Tech and telecom"},
+    {"name": "ITWeb", "url": "https://www.itweb.co.za/rss/", "region": "South Africa", "focus": "IT news"},
+    {"name": "Business Tech SA", "url": "https://businesstech.co.za/news/feed/", "region": "South Africa", "focus": "Business tech"},
+    {"name": "TechCentral SA", "url": "https://techcentral.co.za/feed/", "region": "South Africa", "focus": "Tech news"},
+    {"name": "Fin24 Tech", "url": "https://www.news24.com/fin24/tech/rss", "region": "South Africa", "focus": "Fintech"},
+    {"name": "AllAfrica South Africa", "url": "https://allafrica.com/tools/headlines/rdf/southafrica/headlines.rdf", "region": "South Africa", "focus": "South Africa news"},
+    
+    {"name": "Business Day Nigeria", "url": "https://businessday.ng/feed/", "region": "Nigeria", "focus": "Business and tech"},
+    {"name": "Nairametrics", "url": "https://nairametrics.com/feed/", "region": "Nigeria", "focus": "Business news"},
+    {"name": "Guardian Nigeria Tech", "url": "https://guardian.ng/technology/feed/", "region": "Nigeria", "focus": "Technology"},
+    {"name": "Punch Nigeria Tech", "url": "https://punchng.com/topics/technology/feed/", "region": "Nigeria", "focus": "Technology"},
+    {"name": "Vanguard Nigeria", "url": "https://www.vanguardngr.com/feed/", "region": "Nigeria", "focus": "News"},
+    {"name": "ThisDay Nigeria", "url": "https://www.thisdaylive.com/feed/", "region": "Nigeria", "focus": "News"},
+    {"name": "Premium Times Nigeria", "url": "https://www.premiumtimesng.com/feed", "region": "Nigeria", "focus": "Investigative journalism"},
+    {"name": "AllAfrica Nigeria", "url": "https://allafrica.com/tools/headlines/rdf/nigeria/headlines.rdf", "region": "Nigeria", "focus": "Nigeria news"},
+    
+    {"name": "CIO East Africa", "url": "https://www.cio.co.ke/feed/", "region": "Kenya", "focus": "Enterprise IT"},
+    {"name": "Techweez", "url": "https://techweez.com/feed/", "region": "Kenya", "focus": "Kenyan tech"},
+    {"name": "Kenyan Wallstreet", "url": "https://kenyanwallstreet.com/feed/", "region": "Kenya", "focus": "Business and finance"},
+    {"name": "Business Daily Africa", "url": "https://www.businessdailyafrica.com/bd/rss", "region": "Kenya", "focus": "Business news"},
+    {"name": "The Standard Kenya", "url": "https://www.standardmedia.co.ke/rss/business.php", "region": "Kenya", "focus": "Business"},
+    {"name": "Nation Kenya", "url": "https://nation.africa/kenya/rss", "region": "Kenya", "focus": "News"},
+    {"name": "AllAfrica Kenya", "url": "https://allafrica.com/tools/headlines/rdf/kenya/headlines.rdf", "region": "Kenya", "focus": "Kenya news"},
+    
+    {"name": "Ghana Web Tech", "url": "https://www.ghanaweb.com/GhsPages/rss/category.php?category=Technology", "region": "Ghana", "focus": "Technology"},
+    {"name": "MyJoyOnline", "url": "https://www.myjoyonline.com/feed/", "region": "Ghana", "focus": "News"},
+    {"name": "Graphic Online Ghana", "url": "https://www.graphic.com.gh/feed", "region": "Ghana", "focus": "News"},
+    {"name": "AllAfrica Ghana", "url": "https://allafrica.com/tools/headlines/rdf/ghana/headlines.rdf", "region": "Ghana", "focus": "Ghana news"},
+    
+    {"name": "New Times Rwanda", "url": "https://www.newtimes.co.rw/rssFeed/", "region": "Rwanda", "focus": "Rwanda news"},
+    {"name": "KT Press Rwanda", "url": "https://www.ktpress.rw/feed/", "region": "Rwanda", "focus": "Rwanda news"},
+    {"name": "AllAfrica Rwanda", "url": "https://allafrica.com/tools/headlines/rdf/rwanda/headlines.rdf", "region": "Rwanda", "focus": "Rwanda news"},
+    
+    {"name": "Shega Ethiopia", "url": "https://shega.co/feed/", "region": "Ethiopia", "focus": "Tech and business"},
+    {"name": "Addis Fortune", "url": "https://addisfortune.news/feed/", "region": "Ethiopia", "focus": "Business"},
+    {"name": "Ethiopian Monitor", "url": "https://ethiopianmonitor.com/feed/", "region": "Ethiopia", "focus": "News"},
+    {"name": "AllAfrica Ethiopia", "url": "https://allafrica.com/tools/headlines/rdf/ethiopia/headlines.rdf", "region": "Ethiopia", "focus": "Ethiopia news"},
+    
+    {"name": "Egypt Independent", "url": "https://egyptindependent.com/feed/", "region": "Egypt", "focus": "News"},
+    {"name": "Daily News Egypt", "url": "https://www.dailynewsegypt.com/feed/", "region": "Egypt", "focus": "News"},
+    {"name": "Ahram Online", "url": "https://english.ahram.org.eg/UI/Front/Rss.aspx", "region": "Egypt", "focus": "News"},
+    {"name": "AllAfrica Egypt", "url": "https://allafrica.com/tools/headlines/rdf/egypt/headlines.rdf", "region": "Egypt", "focus": "Egypt news"},
+    
+    {"name": "Morocco World News", "url": "https://www.moroccoworldnews.com/feed/", "region": "Morocco", "focus": "Morocco news"},
+    {"name": "AllAfrica Morocco", "url": "https://allafrica.com/tools/headlines/rdf/morocco/headlines.rdf", "region": "Morocco", "focus": "Morocco news"},
+    
+    {"name": "Tunisie Numerique", "url": "https://www.tunisienumerique.com/feed/", "region": "Tunisia", "focus": "Digital Tunisia"},
+    {"name": "AllAfrica Tunisia", "url": "https://allafrica.com/tools/headlines/rdf/tunisia/headlines.rdf", "region": "Tunisia", "focus": "Tunisia news"},
+    
+    {"name": "Wamda MENA", "url": "https://www.wamda.com/feed", "region": "MENA/North Africa", "focus": "Startup ecosystem"},
+    
+    {"name": "AllAfrica Senegal", "url": "https://allafrica.com/tools/headlines/rdf/senegal/headlines.rdf", "region": "Senegal", "focus": "Senegal news"},
+    {"name": "AllAfrica Cameroon", "url": "https://allafrica.com/tools/headlines/rdf/cameroon/headlines.rdf", "region": "Cameroon", "focus": "Cameroon news"},
+    {"name": "AllAfrica Tanzania", "url": "https://allafrica.com/tools/headlines/rdf/tanzania/headlines.rdf", "region": "Tanzania", "focus": "Tanzania news"},
+    {"name": "AllAfrica Uganda", "url": "https://allafrica.com/tools/headlines/rdf/uganda/headlines.rdf", "region": "Uganda", "focus": "Uganda news"},
+    {"name": "AllAfrica Zambia", "url": "https://allafrica.com/tools/headlines/rdf/zambia/headlines.rdf", "region": "Zambia", "focus": "Zambia news"},
+    {"name": "AllAfrica Zimbabwe", "url": "https://allafrica.com/tools/headlines/rdf/zimbabwe/headlines.rdf", "region": "Zimbabwe", "focus": "Zimbabwe news"},
+    {"name": "AllAfrica Botswana", "url": "https://allafrica.com/tools/headlines/rdf/botswana/headlines.rdf", "region": "Botswana", "focus": "Botswana news"},
+    {"name": "AllAfrica Namibia", "url": "https://allafrica.com/tools/headlines/rdf/namibia/headlines.rdf", "region": "Namibia", "focus": "Namibia news"},
+    {"name": "AllAfrica Mozambique", "url": "https://allafrica.com/tools/headlines/rdf/mozambique/headlines.rdf", "region": "Mozambique", "focus": "Mozambique news"},
+    {"name": "AllAfrica Angola", "url": "https://allafrica.com/tools/headlines/rdf/angola/headlines.rdf", "region": "Angola", "focus": "Angola news"},
+    {"name": "AllAfrica DRC", "url": "https://allafrica.com/tools/headlines/rdf/congo-kinshasa/headlines.rdf", "region": "DRC", "focus": "DRC news"},
+    {"name": "AllAfrica Cote dIvoire", "url": "https://allafrica.com/tools/headlines/rdf/cotedivoire/headlines.rdf", "region": "Cote d'Ivoire", "focus": "Ivory Coast news"},
+    {"name": "AllAfrica Algeria", "url": "https://allafrica.com/tools/headlines/rdf/algeria/headlines.rdf", "region": "Algeria", "focus": "Algeria news"},
+    {"name": "AllAfrica Mauritius", "url": "https://allafrica.com/tools/headlines/rdf/mauritius/headlines.rdf", "region": "Mauritius", "focus": "Mauritius news"},
+    
+    {"name": "VentureBeat AI", "url": "https://venturebeat.com/category/ai/feed/", "region": "Global", "focus": "AI industry news"},
+    {"name": "MIT Technology Review AI", "url": "https://www.technologyreview.com/topic/artificial-intelligence/feed/", "region": "Global", "focus": "AI technology and ethics"},
+    {"name": "Wired AI", "url": "https://www.wired.com/feed/tag/ai/latest/rss", "region": "Global", "focus": "AI and technology"},
+    {"name": "The Verge AI", "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml", "region": "Global", "focus": "AI news"},
+    {"name": "Ars Technica", "url": "https://feeds.arstechnica.com/arstechnica/technology-lab", "region": "Global", "focus": "Technology"},
+    {"name": "ZDNet AI", "url": "https://www.zdnet.com/topic/artificial-intelligence/rss.xml", "region": "Global", "focus": "Enterprise AI"},
+    {"name": "Reuters Technology", "url": "https://www.reuters.com/technology/rss", "region": "Global", "focus": "Tech and AI news"},
+    {"name": "BBC Technology", "url": "https://feeds.bbci.co.uk/news/technology/rss.xml", "region": "Global", "focus": "Technology news"},
+    {"name": "The Guardian Tech", "url": "https://www.theguardian.com/technology/rss", "region": "Global", "focus": "Technology"},
+    {"name": "The Markup", "url": "https://themarkup.org/feed/rss.xml", "region": "Global", "focus": "Tech accountability"},
+    
+    {"name": "Brookings AI", "url": "https://www.brookings.edu/topic/artificial-intelligence/feed/", "region": "Global/Policy", "focus": "AI policy research"},
+    {"name": "Carnegie Endowment", "url": "https://carnegieendowment.org/topics/artificial-intelligence/feed", "region": "Global/Policy", "focus": "Technology policy"},
+    {"name": "CSIS Technology", "url": "https://www.csis.org/topics/technology/feed", "region": "Global/Policy", "focus": "Tech policy"},
+    {"name": "Chatham House", "url": "https://www.chathamhouse.org/feed/all/rss.xml", "region": "Global/Policy", "focus": "International affairs"},
+    {"name": "Tech Policy Press", "url": "https://techpolicy.press/feed/", "region": "Global", "focus": "Tech policy journalism"},
+    {"name": "Lawfare", "url": "https://www.lawfaremedia.org/feed/rss", "region": "Global", "focus": "Tech law and policy"},
+    
+    {"name": "Algorithm Watch", "url": "https://algorithmwatch.org/en/feed/", "region": "Global", "focus": "Algorithmic accountability"},
+    {"name": "AI Now Institute", "url": "https://ainowinstitute.org/feed/", "region": "Global", "focus": "AI social implications"},
+    {"name": "Future of Life Institute", "url": "https://futureoflife.org/feed/", "region": "Global", "focus": "AI safety"},
+    {"name": "Partnership on AI", "url": "https://partnershiponai.org/feed/", "region": "Global", "focus": "Responsible AI"},
+    {"name": "Ada Lovelace Institute", "url": "https://www.adalovelaceinstitute.org/feed/", "region": "Global/UK", "focus": "AI and data ethics"},
+    {"name": "Data & Society", "url": "https://datasociety.net/feed/", "region": "Global", "focus": "Tech and society"},
+    {"name": "Access Now", "url": "https://www.accessnow.org/feed/", "region": "Global", "focus": "Digital rights"},
+    {"name": "EFF Deeplinks", "url": "https://www.eff.org/rss/updates.xml", "region": "Global", "focus": "Digital rights"},
+    {"name": "Privacy International", "url": "https://privacyinternational.org/rss.xml", "region": "Global", "focus": "Privacy and surveillance"},
+    {"name": "IAPP", "url": "https://iapp.org/feed/", "region": "Global", "focus": "Privacy and data protection"},
+    
+    {"name": "World Economic Forum", "url": "https://www.weforum.org/feed/", "region": "Global", "focus": "AI governance"},
+    {"name": "World Bank Blogs", "url": "https://blogs.worldbank.org/feed", "region": "Global", "focus": "Development"},
+    {"name": "African Development Bank", "url": "https://www.afdb.org/en/rss-feeds", "region": "Pan-African", "focus": "Development"},
+    
+    {"name": "Stanford HAI", "url": "https://hai.stanford.edu/news/rss.xml", "region": "Global/Academic", "focus": "Human-centered AI"},
+    {"name": "Oxford Internet Institute", "url": "https://www.oii.ox.ac.uk/feed/", "region": "Global/Academic", "focus": "Internet and society"},
+    
+    {"name": "Google AI Blog", "url": "https://blog.google/technology/ai/rss/", "region": "Global/Industry", "focus": "AI developments"},
+    {"name": "Microsoft AI Blog", "url": "https://blogs.microsoft.com/ai/feed/", "region": "Global/Industry", "focus": "AI developments"},
+    {"name": "OpenAI Blog", "url": "https://openai.com/blog/rss.xml", "region": "Global/Industry", "focus": "AI research"},
+    {"name": "Anthropic Blog", "url": "https://www.anthropic.com/feed.xml", "region": "Global/Industry", "focus": "AI safety"},
+    {"name": "DeepMind Blog", "url": "https://deepmind.google/blog/rss.xml", "region": "Global/Industry", "focus": "AI research"},
+    
+    {"name": "AI Business", "url": "https://aibusiness.com/rss.xml", "region": "Global", "focus": "AI industry"},
+    {"name": "Unite AI", "url": "https://www.unite.ai/feed/", "region": "Global", "focus": "AI news"},
+    {"name": "Synced AI", "url": "https://syncedreview.com/feed/", "region": "Global", "focus": "AI research news"},
+    {"name": "Import AI Newsletter", "url": "https://importai.substack.com/feed", "region": "Global", "focus": "AI policy and research"}
   ],
   
   "keywords_filter": {
     "primary_keywords": [
-      "AI governance",
-      "AI regulation",
-      "AI ethics",
-      "AI policy",
-      "artificial intelligence governance",
-      "artificial intelligence regulation",
-      "responsible AI",
-      "AI audit",
-      "AI assurance",
-      "algorithmic accountability",
-      "algorithmic bias",
-      "AI fairness",
-      "AI transparency",
-      "explainable AI",
-      "AI risk",
-      "AI safety",
-      "AI standards",
-      "ISO 42001",
-      "AI framework",
-      "AI strategy",
-      "AI law",
-      "AI legislation",
-      "data protection",
-      "privacy AI",
-      "AI human rights",
-      "ethical AI",
-      "trustworthy AI"
+      "AI governance", "AI regulation", "AI ethics", "AI policy",
+      "artificial intelligence governance", "artificial intelligence regulation",
+      "responsible AI", "AI audit", "AI assurance",
+      "algorithmic accountability", "algorithmic bias", "AI fairness",
+      "AI transparency", "explainable AI", "AI risk", "AI safety",
+      "AI standards", "ISO 42001", "AI framework", "AI strategy",
+      "AI law", "AI legislation", "data protection", "privacy AI",
+      "AI human rights", "ethical AI", "trustworthy AI",
+      "AI compliance", "AI accountability", "machine learning regulation",
+      "AI bill", "AI act", "generative AI regulation",
+      "foundation model", "large language model regulation",
+      "AI sandbox", "AI licensing", "AI impact assessment",
+      "algorithmic impact", "AI oversight", "digital regulation"
     ],
     
     "africa_keywords": [
-      "africa",
-      "african",
-      "nigeria",
-      "south africa",
-      "kenya",
-      "egypt",
-      "ghana",
-      "rwanda",
-      "ethiopia",
-      "morocco",
-      "tanzania",
-      "uganda",
-      "senegal",
-      "côte d'ivoire",
-      "ivory coast",
-      "cameroon",
-      "zimbabwe",
-      "zambia",
-      "botswana",
-      "namibia",
-      "mozambique",
-      "angola",
-      "tunisia",
-      "algeria",
-      "sudan",
-      "african union",
-      "AU",
-      "ECOWAS",
-      "SADC",
-      "EAC",
-      "smart africa",
-      "afdb",
-      "african development bank"
+      "africa", "african", "nigeria", "nigerian", "south africa", "south african",
+      "kenya", "kenyan", "egypt", "egyptian", "ghana", "ghanaian",
+      "rwanda", "rwandan", "ethiopia", "ethiopian", "morocco", "moroccan",
+      "tanzania", "tanzanian", "uganda", "ugandan", "senegal", "senegalese",
+      "cameroon", "cameroonian", "zimbabwe", "zambia", "botswana", "namibia",
+      "mozambique", "angola", "tunisia", "tunisian", "algeria", "algerian",
+      "sudan", "côte d'ivoire", "ivory coast", "democratic republic of congo", "drc",
+      "african union", "AU", "ECOWAS", "SADC", "EAC", "smart africa",
+      "afdb", "african development bank", "NEPAD", "NITDA",
+      "lagos", "nairobi", "cairo", "johannesburg", "cape town", "accra",
+      "kigali", "addis ababa", "casablanca", "dar es salaam", "kampala",
+      "lusaka", "harare", "maputo", "luanda", "dakar", "abidjan",
+      "mauritius", "seychelles", "malawi", "mali", "niger", "burkina faso",
+      "benin", "togo", "liberia", "sierra leone", "guinea", "gabon"
     ],
     
     "governance_bodies": [
-      "UNESCO",
-      "ITU",
-      "OECD",
-      "World Bank",
-      "IMF",
-      "United Nations",
-      "G20",
-      "African Union Commission",
-      "NEPAD",
-      "Mo Ibrahim Foundation",
-      "Tony Elumelu Foundation",
-      "Data Protection Authority",
-      "Communications Commission",
-      "ICT Ministry"
+      "UNESCO", "ITU", "OECD", "World Bank", "IMF", "United Nations",
+      "G20", "G7", "African Union Commission", "NEPAD",
+      "Mo Ibrahim Foundation", "Tony Elumelu Foundation",
+      "Data Protection Authority", "Communications Commission", "ICT Ministry",
+      "NITDA", "NITA", "NACOSTI", "European Commission", "EU AI Act",
+      "GPAI", "Global Partnership on AI", "NIST", "ISO", "IEEE",
+      "Smart Africa", "Africa CDC", "AUDA-NEPAD"
     ],
     
     "sector_keywords": [
-      "fintech AI",
-      "healthtech AI",
-      "agritech AI",
-      "edtech AI",
-      "banking AI",
-      "insurance AI",
-      "telecom AI",
-      "government AI",
-      "public sector AI"
+      "fintech AI", "healthtech AI", "agritech AI", "edtech AI",
+      "banking AI", "insurance AI", "telecom AI", "government AI",
+      "public sector AI", "financial services AI", "healthcare AI",
+      "agriculture AI", "education AI"
     ]
   },
   
   "relevance_scoring": {
     "high_relevance_combinations": [
-      {
-        "pattern": "primary_keyword + africa_keyword",
-        "base_score": 9
-      },
-      {
-        "pattern": "primary_keyword + governance_body",
-        "base_score": 8
-      },
-      {
-        "pattern": "africa_keyword + sector_keyword",
-        "base_score": 7
-      }
+      {"pattern": "primary_keyword + africa_keyword", "base_score": 9},
+      {"pattern": "primary_keyword + governance_body", "base_score": 8},
+      {"pattern": "africa_keyword + sector_keyword", "base_score": 7}
     ],
     "minimum_score_to_save": 5,
     "minimum_score_for_review": 7
   },
   
   "classification_categories": {
-    "AI Governance": [
-      "National AI Strategies",
-      "Regulatory Frameworks",
-      "Policy Proposals",
-      "International Agreements",
-      "Government Initiatives",
-      "Cross-border Cooperation"
-    ],
-    "AI Ethics": [
-      "Bias & Fairness",
-      "Privacy & Data Protection",
-      "Algorithmic Accountability",
-      "Human Rights Implications",
-      "Consent & Transparency",
-      "Environmental Impact"
-    ],
-    "AI Audit & Assurance": [
-      "Standards & Certifications",
-      "Risk Assessment Frameworks",
-      "Compliance Requirements",
-      "Third-party Audits",
-      "Impact Assessments",
-      "Monitoring & Evaluation"
-    ],
-    "Responsible AI Use": [
-      "Sector Applications",
-      "Best Practices",
-      "Case Studies",
-      "Failures & Lessons",
-      "Implementation Guides",
-      "Success Stories"
-    ]
+    "AI Governance": ["National AI Strategies", "Regulatory Frameworks", "Policy Proposals", "International Agreements", "Government Initiatives", "Cross-border Cooperation", "AI Legislation", "Licensing Requirements"],
+    "AI Ethics": ["Bias & Fairness", "Privacy & Data Protection", "Algorithmic Accountability", "Human Rights Implications", "Consent & Transparency", "Environmental Impact", "Digital Rights"],
+    "AI Audit & Assurance": ["Standards & Certifications", "Risk Assessment Frameworks", "Compliance Requirements", "Third-party Audits", "Impact Assessments", "Monitoring & Evaluation", "ISO 42001"],
+    "Responsible AI Use": ["Sector Applications", "Best Practices", "Case Studies", "Failures & Lessons", "Implementation Guides", "Success Stories", "Enterprise AI"]
   },
   
   "geographic_tags": [
-    "Pan-African",
-    "North Africa",
-    "West Africa",
-    "East Africa",
-    "Southern Africa",
-    "Central Africa",
-    "ECOWAS Region",
-    "SADC Region",
-    "EAC Region",
-    "Global with Africa Implications"
+    "Pan-African", "North Africa", "West Africa", "East Africa", "Southern Africa",
+    "Central Africa", "ECOWAS Region", "SADC Region", "EAC Region",
+    "Global with Africa Implications", "Global South", "MENA"
   ]
 }

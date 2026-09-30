@@ -25,7 +25,7 @@ from sheets_handler import add_to_sheet, get_existing_urls
 # Constants
 MAX_ENTRIES_PER_FEED = 10  # Reduced from 20
 REQUEST_DELAY = 0.5
-MAX_ARTICLES_TO_CLASSIFY = 50  # Hard limit for free tier
+MAX_ARTICLES_TO_CLASSIFY = max(1, min(50, int(os.environ.get('SCRAPER_MAX_ARTICLES', '50'))))
 
 # Sources that are highly relevant (prioritize these)
 PRIORITY_SOURCES = [

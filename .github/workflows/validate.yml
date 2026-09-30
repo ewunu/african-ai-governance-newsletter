@@ -35,3 +35,11 @@ jobs:
           SHEET_ID: ${{ secrets.SHEET_ID }}
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-3.5-flash-lite' }}
         run: python src/healthcheck.py
+      - name: End-to-end smoke scrape (up to three real articles)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GOOGLE_SHEETS_CREDS: ${{ secrets.GOOGLE_SHEETS_CREDS }}
+          SHEET_ID: ${{ secrets.SHEET_ID }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-3.5-flash-lite' }}
+          SCRAPER_MAX_ARTICLES: '3'
+        run: python src/scraper.py

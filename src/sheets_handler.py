@@ -88,20 +88,9 @@ def ensure_headers(sheet) -> None:
 
 def get_existing_urls() -> Set[str]:
     """Get set of URLs already in the sheet to avoid duplicates"""
-    try:
-        sheet = get_sheet()
-        
-        # Get all values from URL column (column B, index 2)
-        url_column = sheet.col_values(2)
-        
-        # Skip header row and return as set
-        urls = set(url_column[1:]) if len(url_column) > 1 else set()
-        
-        return urls
-        
-    except Exception as e:
-        print(f"   Warning: Could not fetch existing URLs: {e}")
-        return set()
+    sheet = get_sheet()
+    url_column = sheet.col_values(2)
+    return set(url_column[1:]) if len(url_column) > 1 else set()
 
 
 def add_to_sheet(article: Dict) -> bool:
@@ -137,7 +126,7 @@ def add_to_sheet(article: Dict) -> bool:
         ]
         
         # Append row to sheet
-        sheet.append_row(row, value_input_option='USER_ENTERED')
+        sheet.append_row(row, value_input_option='RAW')
         
         return True
         
@@ -186,7 +175,7 @@ def add_multiple_to_sheet(articles: List[Dict]) -> Dict:
             rows.append(row)
         
         # Batch append (more efficient)
-        sheet.append_rows(rows, value_input_option='USER_ENTERED')
+        sheet.append_rows(rows, value_input_option='RAW')
         results['success'] = len(rows)
         
     except Exception as e:

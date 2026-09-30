@@ -5,7 +5,8 @@ Uses Google Gemini API (free tier) to classify articles.
 Updated with rate limiting and better error handling.
 """
 
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 import os
 import json
 import re
@@ -13,13 +14,22 @@ import time
 from typing import Dict, Optional
 
 # Configure Gemini API
-api_key = os.environ.get('GEMINI_API_KEY')
-if api_key:
-    genai.configure(api_key=api_key)
+MODEL_NAME = os.environ.get('GEMINI_MODEL', 'gemini-3.5-flash-lite')
+_client = None
 
-# Rate limiting: 3 requests per minute (safety buffer from 5/min limit)
+
+def get_client():
+    global _client
+    if _client is None:
+        _client = genai.Client(
+            api_key=os.environ.get('GEMINI_API_KEY'),
+            http_options=types.HttpOptions(timeout=60000),
+        )
+    return _client
+
+# Rate limiting: 2 requests per minute; adjust only after checking project quota.
 REQUESTS_PER_MINUTE = 2
-REQUEST_INTERVAL = 60 / REQUESTS_PER_MINUTE  # 20 seconds between requests
+REQUEST_INTERVAL = 60 / REQUESTS_PER_MINUTE  # 30 seconds between requests
 
 # Track last request time
 _last_request_time = 0
@@ -115,7 +125,8 @@ def validate_classification(classification: Dict) -> Dict:
         result['relevance_score'] = 1
     
     # Validate is_africa_related
-    result['is_africa_related'] = bool(result.get('is_africa_related', False))
+    value = result.get('is_africa_related', False)
+    result['is_africa_related'] = value is True or (isinstance(value, str) and value.lower() == 'true')
     
     return result
 
@@ -132,7 +143,7 @@ def classify_article(title: str, snippet: str, max_retries: int = 2) -> Optional
     Returns:
         Classification dict or None if failed
     """
-    if not api_key:
+    if not os.environ.get('GEMINI_API_KEY'):
         print("    ⚠ GEMINI_API_KEY not set")
         return None
     
@@ -149,36 +160,27 @@ def classify_article(title: str, snippet: str, max_retries: int = 2) -> Optional
             # Enforce rate limiting
             wait_for_rate_limit()
             
-            # Initialize model - using gemini-2.0-flash-lite for free tier
-            model = genai.GenerativeModel('gemini-2.0-flash-lite')
-            
             # Format prompt
             prompt = CLASSIFICATION_PROMPT.format(
                 title=title,
                 snippet=snippet
             )
             
-            # Generate classification with safety settings relaxed
-            response = model.generate_content(
-                prompt,
-                generation_config=genai.types.GenerationConfig(
+            response = get_client().models.generate_content(
+                model=MODEL_NAME,
+                contents=prompt,
+                config=types.GenerateContentConfig(
                     temperature=0.1,
-                    max_output_tokens=200,  # Keep response short
-                )
+                    max_output_tokens=1024,
+                    response_mime_type='application/json',
+                ),
             )
-            
-            # Check if response has content
-            if not response or not response.parts:
-                print(f"    ⚠ Empty response from Gemini")
-                return None
-            
-            # Get text from response
-            response_text = response.text if hasattr(response, 'text') else None
-            
+            response_text = response.text if response else None
+
             if response_text:
                 classification = parse_json_response(response_text)
                 
-                if classification:
+                if isinstance(classification, dict):
                     return validate_classification(classification)
             
             return None

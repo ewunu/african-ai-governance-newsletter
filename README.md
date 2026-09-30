@@ -236,3 +236,24 @@ MIT License - Use freely for your newsletter!
 ---
 
 Built for Wulo's African AI Governance Newsletter 🌍
+
+## Reliability and validation
+
+The classifier uses the supported `google-genai` SDK and defaults to
+`gemini-3.5-flash-lite`. Set the repository Actions variable `GEMINI_MODEL`
+to override it when migrating models. Existing API credentials stay in secrets.
+
+Run regression tests with `python -m unittest discover -s tests -v`.
+`python src/healthcheck.py` checks Sheets read access, one Gemini classification,
+and RSS availability without writing rows. The validation workflow runs this
+check on trusted pushes; pull requests only run tests without secrets.
+
+Production runs fail on Sheet reads, classification/save errors, or total feed
+failure. Feed requests have timeouts and run with eight workers. Individual
+broken feeds are reported while working feeds continue. Metadata is written
+as literal text, preserving the existing 12-column sheet structure.
+
+GitHub disables scheduled workflows in public repositories after 60 days of
+repository inactivity. If this happens, review the Actions workflow and enable
+it after a successful validation run. Regularly review the feed health count
+and keep the configured model supported.

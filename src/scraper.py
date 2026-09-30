@@ -8,6 +8,8 @@ Optimized for free tier: aggressive pre-filtering to reduce API calls.
 """
 
 import feedparser
+import requests
+from concurrent.futures import ThreadPoolExecutor
 import json
 import os
 import sys
@@ -88,7 +90,6 @@ def calculate_keyword_score(title: str, snippet: str, sources: Dict) -> Tuple[in
     - 3-4: Moderate match (AI or Africa keywords)
     - 5+: Strong match (AI + Africa keywords)
     """
-    keywords = sources.get('keywords_filter', {})
     text = (title + ' ' + snippet).lower()
     
     # AI/Governance keywords
@@ -108,9 +109,14 @@ def calculate_keyword_score(title: str, snippet: str, sources: Dict) -> Tuple[in
         'senegal', 'cameroon', 'african union', 'ecowas', 'sadc'
     ]
     
+    keywords = sources.get('keywords_filter', {})
+    ai_keywords = list(set(ai_keywords + keywords.get('primary_keywords', [])))
+    africa_keywords = list(set(africa_keywords + keywords.get('africa_keywords', [])))
+    matches = lambda kw: re.search(r'(?<!\w)' + re.escape(kw.lower()) + r'(?!\w)', text) is not None
+
     # Count matches
-    ai_matches = sum(1 for kw in ai_keywords if kw in text)
-    africa_matches = sum(1 for kw in africa_keywords if kw in text)
+    ai_matches = sum(1 for kw in ai_keywords if matches(kw))
+    africa_matches = sum(1 for kw in africa_keywords if matches(kw))
     
     is_ai_related = ai_matches > 0
     is_africa_related = africa_matches > 0
@@ -167,6 +173,18 @@ def should_skip_article(title: str) -> bool:
     return False
 
 
+def fetch_feed(url: str):
+    response = requests.get(
+        url, timeout=(5, 15),
+        headers={'User-Agent': 'AfricanAIGovernanceNewsletter/1.0 (RSS reader)'},
+    )
+    response.raise_for_status()
+    parsed = feedparser.parse(response.content)
+    if not parsed.get('version') and not parsed.entries:
+        raise ValueError('Response is not a valid RSS/Atom feed')
+    return parsed
+
+
 def parse_single_feed(feed_config: Dict, sources: Dict, existing_urls: Set[str]) -> List[Dict]:
     """Parse a single RSS feed and return relevant articles"""
     articles = []
@@ -179,7 +197,8 @@ def parse_single_feed(feed_config: Dict, sources: Dict, existing_urls: Set[str])
     print(f"  {'⭐' if is_priority else '○'} Parsing: {feed_name}...")
     
     try:
-        parsed = feedparser.parse(feed_url)
+        parsed = fetch_feed(feed_url)
+        feed_config['_fetch_ok'] = True
         
         if parsed.bozo and not parsed.entries:
             print(f"    ⚠ Feed error: {str(parsed.bozo_exception)[:50]}")
@@ -256,10 +275,16 @@ def parse_all_feeds(sources: Dict, existing_urls: Set[str]) -> List[Dict]:
     print(f"SCRAPING {len(feeds)} RSS FEEDS")
     print(f"{'='*60}\n")
     
+    # Bound network waits and fetch independent feeds concurrently.
     for feed in feeds:
-        articles = parse_single_feed(feed, sources, existing_urls)
-        all_articles.extend(articles)
-        time.sleep(REQUEST_DELAY)
+        feed['_fetch_ok'] = False
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        for articles in pool.map(lambda feed: parse_single_feed(feed, sources, existing_urls), feeds):
+            all_articles.extend(articles)
+    successful = sum(feed.get('_fetch_ok', False) for feed in feeds)
+    print(f'Feed health: {successful}/{len(feeds)} feeds fetched successfully')
+    if not successful:
+        raise RuntimeError('All RSS feeds failed; refusing to report a successful empty scrape')
     
     # Deduplicate by URL
     seen_urls = set()
@@ -319,7 +344,6 @@ def process_and_save_articles(articles: List[Dict], min_score: int = 5) -> Dict:
                     article['title'], 
                     article.get('snippet', '')
                 )
-                classification['relevance_score'] = max(classification['relevance_score'], kw_score + 2)
                 stats['skipped_fallback'] += 1
                 print(f"    ⚡ Fast-tracked (Score: {classification['relevance_score']}/10)")
             else:
@@ -373,13 +397,9 @@ def main():
     
     # Get existing URLs
     print("\n📋 Checking existing entries...")
-    try:
-        existing_urls = get_existing_urls()
-        print(f"   Found {len(existing_urls)} existing entries")
-    except Exception as e:
-        print(f"   ⚠ Could not fetch existing URLs: {e}")
-        existing_urls = set()
-    
+    existing_urls = get_existing_urls()
+    print(f'   Found {len(existing_urls)} existing entries')
+
     # Parse feeds
     articles = parse_all_feeds(sources, existing_urls)
     
@@ -404,6 +424,8 @@ def main():
     print(f"  Errors:                 {stats['errors']}")
     print(f"  Total time:             {elapsed/60:.1f} minutes")
     print("="*60 + "\n")
+    if stats['errors']:
+        raise RuntimeError(f"Scrape incomplete: {stats['errors']} classification/save errors")
 
 
 if __name__ == "__main__":

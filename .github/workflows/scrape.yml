@@ -2,19 +2,24 @@ name: Scrape AI Governance News
 
 on:
   schedule:
-    # 5:00 AM Cairo time (UTC+2) = 3:00 AM UTC
-    - cron: '0 3 * * *'
-    # 2:00 PM Cairo time = 12:00 PM UTC
-    - cron: '0 12 * * *'
-    # 9:00 PM Cairo time = 7:00 PM UTC
-    - cron: '0 19 * * *'
-  
+    # Keep the original 5am, 2pm, 9pm local times, including Cairo DST.
+    - cron: '0 5,14,21 * * *'
+      timezone: Africa/Cairo
+
   # Allow manual triggering for testing
   workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: newsletter-scraper
+  cancel-in-progress: false
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     
     steps:
       - name: Checkout repository
@@ -38,11 +43,23 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       
+      - name: Run regression tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Check live integrations
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GOOGLE_SHEETS_CREDS: ${{ secrets.GOOGLE_SHEETS_CREDS }}
+          SHEET_ID: ${{ secrets.SHEET_ID }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-3.5-flash-lite' }}
+        run: python src/healthcheck.py
+
       - name: Run scraper
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GOOGLE_SHEETS_CREDS: ${{ secrets.GOOGLE_SHEETS_CREDS }}
           SHEET_ID: ${{ secrets.SHEET_ID }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-3.5-flash-lite' }}
         run: |
           cd src
           python scraper.py
@@ -50,3 +67,38 @@ jobs:
       - name: Log completion
         run: |
           echo "Scrape completed at $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+
+  record_health:
+    needs: scrape
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Record successful operation at most once every 30 days
+        env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python - <<'PYTHON'
+          import json, os
+          from datetime import datetime, timezone, timedelta
+          from pathlib import Path
+          path = Path('.github/scraper-health.json')
+          now = datetime.now(timezone.utc)
+          if path.exists():
+              last = datetime.fromisoformat(json.loads(path.read_text())['last_success'])
+              if now - last < timedelta(days=30):
+                  raise SystemExit(0)
+          path.write_text(json.dumps({'last_success': now.isoformat(), 'run_url': os.environ['RUN_URL']}, indent=2) + '\n')
+          PYTHON
+          if [ -z "$(git status --porcelain -- .github/scraper-health.json)" ]; then
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .github/scraper-health.json
+          git commit -m 'Record successful monthly scraper health check [skip ci]'
+          git push origin HEAD:main
